@@ -417,14 +417,43 @@ function formatDate(date){
 }
 
 function showCategory(category){
-  alert("Category clicked: " + category);
+
+  loadArticles().then(dbArticles => {
+
+    let apiArticles = [];
+
+    try{
+      apiArticles =
+        JSON.parse(localStorage.getItem("animeArticles")) || [];
+    }catch(e){
+      apiArticles = [];
+    }
+
+    const allArticles = [
+      ...dbArticles,
+      ...apiArticles
+    ];
+
+    const filtered = allArticles.filter(article =>
+      article.category &&
+      article.category.toLowerCase() === category.toLowerCase()
+    );
+
+    document.getElementById("homeLayout").style.display = "none";
+    document.getElementById("articlePage").style.display = "none";
+    document.getElementById("articles").style.display = "grid";
+
+    renderArticles(filtered);
+  });
+
 }
 
 /* =========================
    URL HANDLING
 ========================= */
 function setURL(article, replace=false){
-  const url = rarticle && article._id ? `/article/${article._id}` : `/`;
+  const url = article && article._id ? `/article/${article._id}` : `/`;
+
   if(replace){
     history.replaceState({}, "", url);
   }else{
@@ -578,23 +607,49 @@ window.onpopstate = () => {
 /* =========================
    LOAD DATA
 ========================= */
-/* =========================
-   LOAD DATA
-========================= */
 async function showHome(){
+
   const dbArticles = await loadArticles();
 
   let animeArticles = [];
-  try {
+  let movieArticles = [];
+  let newsArticles = []; // ✅ ADD THIS
+  let sportsArticles = [];
+  try{
     animeArticles = await getAnimeNews();
-  } catch (e) {
-    console.log("Anime API failed:", e);
+  }catch(e){
+    console.log("Anime API failed", e);
   }
 
+  try{
+    movieArticles = await getMovieNews();
+  }catch(e){
+    console.log("Movie API failed", e);
+  }
+
+  try{
+    newsArticles = await getNewsArticles(); // ✅ ADD THIS
+  }catch(e){
+    console.log("News API failed", e);
+  }
+  
+  try {
+  sportsArticles = await getSportsNews();
+} catch(e){
+  console.log("Sports API failed", e);
+}
+
+console.log("SPORTS DATA:", sportsArticles);
+
   const combined = [
-    ...(animeArticles || []),
-    ...(dbArticles || [])
-  ];
+  ...(animeArticles || []),
+  ...(movieArticles || []),
+  ...(newsArticles || []),
+  ...(sportsArticles || []),
+  ...(dbArticles || [])
+];
+console.log("SPORTS DATA:", sportsArticles);
+console.log("COMBINED:", combined);
 
   renderArticles(combined);
 }
@@ -711,6 +766,112 @@ function checkDirectLink(){
       });
   }else showHome();
 }
+/* =========================
+   MOVIE API
+========================= */
+
+async function getMovieNews(){
+
+  try{
+
+    const res =
+      await fetch(
+        "https://api.tvmaze.com/shows"
+      );
+
+    const data =
+      await res.json();
+
+    return data
+      .slice(0,10)
+      .map(movie => ({
+
+        title: movie.name,
+
+        image:
+          movie.image?.original ||
+          movie.image?.medium ||
+          "",
+
+        content:
+          movie.summary
+            ?.replace(/<[^>]*>/g,"")
+          || "No description available.",
+
+        category:"movies",
+
+        author:"TVMaze API",
+
+        likes:0,
+
+        comments:[],
+
+        date:new Date().toISOString()
+
+      }));
+
+  }catch(err){
+
+    console.error(err);
+
+    return [];
+  }
+}
+/* =========================
+   NEWS API (FIXED)
+========================= */
+
+async function getNewsArticles() {
+  try {
+    const res = await fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=YOUR_API_KEY");
+
+    const data = await res.json();
+
+    return (data.articles || []).slice(0, 10).map(n => ({
+      title: n.title,
+      image: n.urlToImage || "",
+      content: n.description || "No description available.",
+      category: "news",
+      author: n.source?.name || "News API",
+      likes: 0,
+      comments: [],
+      date: new Date().toISOString()
+    }));
+
+  } catch (err) {
+    console.error("News API failed", err);
+    return [];
+  }
+}
+/* =========================
+   SPORTS API (FIXED)
+========================= */
+
+async function getSportsNews() {
+  try {
+    const res = await fetch("https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?c=England&s=Soccer");
+
+    const data = await res.json();
+
+    const leagues = data.countrys || [];
+
+    return leagues.slice(0, 10).map(s => ({
+      title: s.strLeague,
+      image: "", 
+      content: s.strSport || "Sports update available",
+      category: "sports",
+      author: "SportsDB API",
+      likes: 0,
+      comments: [],
+      date: new Date().toISOString()
+    }));
+
+  } catch (err) {
+    console.error("Sports API failed", err);
+    return [];
+  }
+}
+
 
 /* =========================
    LIKE NUDGE ANIMATION
