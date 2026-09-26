@@ -54,6 +54,20 @@ function addSection(title="",image="",text=""){
 }
 
 /* ===============================
+   ADMIN KEY (now checked server-side)
+   Prompt once per browser tab session and reuse it for every
+   save/upload request via the x-admin-key header.
+================================= */
+function getAdminKey(){
+  let key = sessionStorage.getItem("adminKey");
+  if(!key){
+    key = prompt("Enter admin key:");
+    if(key) sessionStorage.setItem("adminKey", key);
+  }
+  return key;
+}
+
+/* ===============================
    FIX 1: SAFE EDIT MODE CHECK
 ================================= */
 const editData = JSON.parse(localStorage.getItem("editArticle"));
@@ -91,11 +105,15 @@ document.getElementById("articleForm").addEventListener("submit", async function
   const url=editMode?`/articles/${editId}`:"/articles";
   const method=editMode?"PUT":"POST";
 
+  const adminKey = getAdminKey();
+  if(!adminKey) return;
+
   try{
     const res = await fetch(url,{
       method,
       headers:{
-        "Content-Type":"application/json"
+        "Content-Type":"application/json",
+        "x-admin-key":adminKey
       },
       body:JSON.stringify({
         title,
@@ -105,6 +123,12 @@ document.getElementById("articleForm").addEventListener("submit", async function
         author
       })
     });
+
+    if(res.status===401){
+      alert("Wrong admin key ❌ — try again.");
+      sessionStorage.removeItem("adminKey");
+      return;
+    }
 
     const data = await res.json();
     console.log("SERVER RESPONSE:", data);
@@ -135,10 +159,24 @@ async function uploadImage(){
   const inputFile=document.getElementById("uploadImage");
   if(!inputFile.files.length)return alert("Select file");
 
+  const adminKey = getAdminKey();
+  if(!adminKey) return;
+
   const formData=new FormData();
   formData.append("image",inputFile.files[0]);
 
-  const res=await fetch("/upload",{method:"POST",body:formData});
+  const res=await fetch("/upload",{
+    method:"POST",
+    headers:{"x-admin-key":adminKey},
+    body:formData
+  });
+
+  if(res.status===401){
+    alert("Wrong admin key ❌ — try again.");
+    sessionStorage.removeItem("adminKey");
+    return;
+  }
+
   const data=await res.json();
 
   if(data.path){

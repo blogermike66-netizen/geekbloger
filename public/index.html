@@ -341,6 +341,89 @@ footer{
   50%{transform:scale(1.08);}
   100%{transform:scale(1);}
 }
+
+/* =========================
+   TECH NEWS STRIP (GNews)
+========================= */
+#techStrip{
+  padding:0 20px;
+  margin-top:-5px;
+}
+
+#techStrip h3{
+  font-size:15px;
+  color:#666;
+  margin:0 0 10px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.tech-scroll{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  padding-bottom:10px;
+  scrollbar-width:thin;
+}
+
+.tech-card{
+  flex:0 0 240px;
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  transition:0.25s;
+  position:relative;
+}
+.tech-card:hover{transform:translateY(-3px);}
+
+.tech-card img{
+  width:100%;
+  height:120px;
+  object-fit:cover;
+  background:#eee;
+}
+
+.tech-badge{
+  position:absolute;
+  top:8px;
+  left:8px;
+  background:#ff4d6d;
+  color:white;
+  font-size:10px;
+  font-weight:600;
+  padding:3px 8px;
+  border-radius:20px;
+}
+
+.tech-card h4{
+  font-size:14px;
+  margin:0;
+  padding:10px 10px 4px;
+  line-height:1.3;
+}
+
+.tech-card small{
+  display:block;
+  padding:0 10px 10px;
+  color:gray;
+  font-size:11px;
+}
+
+.tech-card.empty{
+  flex:1;
+  text-align:center;
+  color:gray;
+  font-size:13px;
+  padding:20px;
+  cursor:default;
+  box-shadow:none;
+}
+
+@media (max-width: 768px){
+  .tech-card{flex-basis:200px;}
+}
 </style>
 </head>
 
@@ -362,6 +445,9 @@ footer{
 <a onclick="showCategory('news')">News</a>
 <a onclick="showCategory('sports')">Sports</a>
 <a onclick="showCategory('pop')">Pop Culture</a>
+<a onclick="showTechNews()">🌐 Tech News</a>
+<a onclick="showMovies()">🎬 Trending Movies</a>
+<a onclick="showSportsScores()">🏆 Sports News</a>
 </nav>
 </header>
 
@@ -369,6 +455,8 @@ footer{
   <div class="hero" id="hero"></div>
   <div class="sidebar" id="sidebar"></div>
 </div>
+
+<div id="techStrip"></div>
 
 <div id="articles"></div>
 
@@ -414,8 +502,198 @@ footer{
 
 <script>
 let currentArticle=null;
-let ADMIN_KEY="Gambatukatiyamike03";
 const API = window.location.origin;
+
+/* =========================
+   GNEWS-POWERED FEEDS (Tech / Movie / Sports news)
+   All three reuse the one GNews key — no extra signups needed.
+   Free plan: 100 req/day, 10/min — cached client-side so normal
+   traffic never gets close to that.
+========================= */
+const GNEWS_API_KEY = "0b41d82ebdb09181c35a521e452f4855";
+const GNEWS_CACHE_MINUTES = 1440; // refresh once per 24 hours
+
+function gnewsURL(category){
+  return `https://gnews.io/api/v4/top-headlines?category=${category}&lang=en&apikey=${GNEWS_API_KEY}`;
+}
+
+async function loadGNewsCategory(category){
+  const cacheKey = `geekhub_gnews_${category}`;
+
+  try{
+    const cachedRaw = localStorage.getItem(cacheKey);
+    if(cachedRaw){
+      const cached = JSON.parse(cachedRaw);
+      const ageMinutes = (Date.now() - cached.timestamp) / 60000;
+      if(ageMinutes < GNEWS_CACHE_MINUTES && Array.isArray(cached.articles)){
+        return cached.articles;
+      }
+    }
+  }catch(e){ /* ignore bad cache */ }
+
+  try{
+    const res = await fetch(gnewsURL(category));
+    const data = await res.json();
+    const articles = Array.isArray(data.articles) ? data.articles : [];
+
+    try{
+      localStorage.setItem(cacheKey, JSON.stringify({
+        timestamp: Date.now(),
+        articles
+      }));
+    }catch(e){ /* storage full/unavailable, skip caching */ }
+
+    return articles;
+  }catch(e){
+    console.error(`GNews fetch failed (${category})`, e);
+    return [];
+  }
+}
+
+function newsCardHTML(a, badge){
+  const img = a.image ? `<img src="${a.image}" onerror="this.style.display='none'">` : "";
+  const source = a.source && a.source.name ? a.source.name : "News";
+  return `
+    <div class="tech-card" onclick="window.open('${a.url}','_blank')">
+      <span class="tech-badge">${badge}</span>
+      ${img}
+      <h4>${a.title}</h4>
+      <small>${source} • ${formatDate(a.publishedAt)}</small>
+    </div>
+  `;
+}
+
+function newsGridHTML(a, badge){
+  return `
+    <div class="article-card" onclick="window.open('${a.url}','_blank')" style="position:relative">
+      <span class="tech-badge">${badge}</span>
+      ${a.image ? `<img src="${a.image}" onerror="this.style.display='none'">` : ""}
+      <h3>${a.title}</h3>
+      <p>${a.description || ""}</p>
+      <small style="padding:0 10px;display:block;color:gray;padding-bottom:10px;">${(a.source && a.source.name) || "News"} • ${formatDate(a.publishedAt)}</small>
+    </div>
+  `;
+}
+
+async function renderTechStrip(){
+  const strip = document.getElementById("techStrip");
+  if(!strip) return;
+
+  const news = await loadGNewsCategory("technology");
+
+  if(!news.length){
+    strip.innerHTML = "";
+    return;
+  }
+
+  strip.innerHTML = `
+    <h3>🌐 Live Tech Headlines</h3>
+    <div class="tech-scroll">
+      ${news.slice(0,8).map(a => newsCardHTML(a, "🌐 LIVE")).join("")}
+    </div>
+  `;
+}
+
+async function showFeed(category, badge, emptyMessage){
+  document.getElementById("homeLayout").style.display = "none";
+  document.getElementById("techStrip").innerHTML = "";
+  document.getElementById("articlePage").style.display = "none";
+  document.getElementById("articles").style.display = "grid";
+
+  const news = await loadGNewsCategory(category);
+  const container = document.getElementById("articles");
+
+  if(!news.length){
+    container.innerHTML = `<div class="tech-card empty">${emptyMessage}</div>`;
+    return;
+  }
+
+  container.innerHTML = news.map(a => newsGridHTML(a, badge)).join("");
+}
+
+function showTechNews(){
+  return showFeed("technology", "🌐 LIVE", "Couldn't load tech news right now — try again shortly.");
+}
+
+function showSportsScores(){
+  return showFeed("sports", "🏆 SPORTS", "Couldn't load sports news right now — try again shortly.");
+}
+
+/* =========================
+   TRENDING MOVIES (MDBList)
+   Pulls MDBList's public "Top Watched Movies of the Week" list.
+   Get your own key any time: mdblist.com/preferences
+========================= */
+const MDBLIST_API_KEY = "x7tvh3k7fyfskdyrzkytmu63a";
+const MDBLIST_URL = `https://mdblist.com/lists/linaspurinis/top-watched-movies-of-the-week/json?apikey=${MDBLIST_API_KEY}`;
+const MDBLIST_CACHE_KEY = "geekhub_mdblist_cache";
+const MDBLIST_CACHE_MINUTES = 1440; // refresh once per 24 hours
+
+async function loadMovies(){
+  try{
+    const cachedRaw = localStorage.getItem(MDBLIST_CACHE_KEY);
+    if(cachedRaw){
+      const cached = JSON.parse(cachedRaw);
+      const ageMinutes = (Date.now() - cached.timestamp) / 60000;
+      if(ageMinutes < MDBLIST_CACHE_MINUTES && Array.isArray(cached.movies)){
+        return cached.movies;
+      }
+    }
+  }catch(e){ /* ignore bad cache */ }
+
+  try{
+    const res = await fetch(MDBLIST_URL);
+    const data = await res.json();
+    const movies = Array.isArray(data) ? data : [];
+
+    try{
+      localStorage.setItem(MDBLIST_CACHE_KEY, JSON.stringify({
+        timestamp: Date.now(),
+        movies
+      }));
+    }catch(e){ /* storage full/unavailable, skip caching */ }
+
+    return movies;
+  }catch(e){
+    console.error("MDBList fetch failed", e);
+    return [];
+  }
+}
+
+async function showMovies(){
+  document.getElementById("homeLayout").style.display = "none";
+  document.getElementById("techStrip").innerHTML = "";
+  document.getElementById("articlePage").style.display = "none";
+  document.getElementById("articles").style.display = "grid";
+
+  const container = document.getElementById("articles");
+  const movies = await loadMovies();
+
+  if(!movies.length){
+    container.innerHTML = `<div class="tech-card empty">Couldn't load movies right now — try again shortly.</div>`;
+    return;
+  }
+
+  container.innerHTML = movies.map(m => {
+    // MDBList list fields can vary slightly by list — fall back gracefully.
+    const title = m.title || m.name || "Untitled";
+    const year = m.year || m.release_year || "";
+    const poster = m.poster || m.poster_path || m.image || "";
+    const rating = m.imdbrating || m.rating || m.score || null;
+    const imdbId = m.imdb_id || m.imdbid || m.i || "";
+    const link = imdbId ? `https://www.imdb.com/title/${imdbId}/` : "#";
+
+    return `
+      <div class="article-card" onclick="window.open('${link}','_blank')" style="position:relative">
+        <span class="tech-badge">🎬 TOP THIS WEEK</span>
+        ${poster ? `<img src="${poster}" onerror="this.style.display='none'">` : ""}
+        <h3>${title}</h3>
+        <small style="padding:0 10px;display:block;color:gray;padding-bottom:10px;">${rating ? "⭐ " + rating + " • " : ""}${year}</small>
+      </div>
+    `;
+  }).join("");
+}
+
 
 /* =========================
    FORMAT DATE
@@ -438,6 +716,7 @@ function showCategory(category){
     );
 
     document.getElementById("homeLayout").style.display = "none";
+    document.getElementById("techStrip").innerHTML = "";
     document.getElementById("articlePage").style.display = "none";
     document.getElementById("articles").style.display = "grid";
 
@@ -536,6 +815,7 @@ function openArticle(article){
   setURL(article);
 
   document.getElementById("homeLayout").style.display="none";
+  document.getElementById("techStrip").innerHTML="";
   document.getElementById("articles").style.display="none";
   document.getElementById("articlePage").style.display="block";
 
@@ -610,6 +890,7 @@ async function showHome(){
   const dbArticles = await loadArticles();
 
   renderArticles(dbArticles);
+  renderTechStrip();
 }
 
 
@@ -698,10 +979,13 @@ function favArticle(){
 
 function openEdit(){
   const key=prompt("Enter admin key:");
-  if(key===ADMIN_KEY){
-    localStorage.setItem("editArticle",JSON.stringify(currentArticle));
-    window.location.href="/write.html";
-  }
+  if(!key) return;
+
+  // The key is no longer checked here — the server verifies it on save,
+  // so there's nothing meaningful to bypass by reading this file.
+  sessionStorage.setItem("adminKey", key);
+  localStorage.setItem("editArticle",JSON.stringify(currentArticle));
+  window.location.href="/write.html";
 }
 
 /* =========================

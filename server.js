@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -11,8 +13,13 @@ const PORT = process.env.PORT || 3000;
 // ===============================
 // MONGODB
 // ===============================
-const MONGO_URI =
-  "mongodb+srv://stellagambatuka1_db_user:EtyGMOF5MPwjdAc5@cluster0.xruwis5.mongodb.net/geekhub?retryWrites=true&w=majority";
+// Connection string now lives in .env (never committed) — see .env.example
+const MONGO_URI = process.env.MONGO_URI;
+
+if (!MONGO_URI) {
+  console.error("❌ Missing MONGO_URI. Add it to your .env file (see .env.example).");
+  process.exit(1);
+}
 
 mongoose
   .connect(MONGO_URI)
@@ -55,6 +62,28 @@ const Article = mongoose.model("Article", ArticleSchema);
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+
+// ===============================
+// ADMIN AUTH
+// ===============================
+// Real server-side gate, replacing the old client-side "===ADMIN_KEY" check
+// (which anyone could bypass just by reading the page source and calling
+// the API directly). Now every write/edit/delete/upload request must carry
+// the correct key in an "x-admin-key" header, verified here, not in the browser.
+function requireAdmin(req, res, next) {
+  const suppliedKey = req.headers["x-admin-key"];
+
+  if (!process.env.ADMIN_KEY) {
+    console.error("❌ Missing ADMIN_KEY. Add it to your .env file (see .env.example).");
+    return res.status(500).json({ error: "Server misconfigured" });
+  }
+
+  if (!suppliedKey || suppliedKey !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: "Unauthorized ❌" });
+  }
+
+  next();
+}
 
 // ===============================
 // HOME
@@ -106,7 +135,7 @@ app.get("/article/slug/:slug", async (req, res) => {
 // ===============================
 // ADD ARTICLE
 // ===============================
-app.post("/articles", async (req, res) => {
+app.post("/articles", requireAdmin, async (req, res) => {
   try {
     const article = new Article({
       ...req.body,
@@ -123,7 +152,7 @@ app.post("/articles", async (req, res) => {
 // ===============================
 // UPDATE ARTICLE
 // ===============================
-app.put("/articles/:id", async (req, res) => {
+app.put("/articles/:id", requireAdmin, async (req, res) => {
   try {
     const updated = await Article.findByIdAndUpdate(
       req.params.id,
@@ -184,7 +213,7 @@ app.post("/articles/:id/comment", async (req, res) => {
 // ===============================
 // DELETE
 // ===============================
-app.delete("/articles/:id", async (req, res) => {
+app.delete("/articles/:id", requireAdmin, async (req, res) => {
   try {
     await Article.findByIdAndUpdate(req.params.id, {
       unseen: true,
@@ -212,7 +241,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", upload.single("image"), (req, res) => {
+app.post("/upload", requireAdmin, upload.single("image"), (req, res) => {
   res.json({ path: "/uploads/" + req.file.filename });
 });
 
