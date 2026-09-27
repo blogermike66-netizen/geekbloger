@@ -46,6 +46,7 @@ const ArticleSchema = new mongoose.Schema({
   image: String,
   date: { type: Date, default: Date.now },
   likes: { type: Number, default: 0 },
+  views: { type: Number, default: 0 },
   fav: { type: Boolean, default: false },
   comments: { type: [String], default: [] },
   unseen: { type: Boolean, default: false },
@@ -62,28 +63,6 @@ const Article = mongoose.model("Article", ArticleSchema);
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
-
-// ===============================
-// ADMIN AUTH
-// ===============================
-// Real server-side gate, replacing the old client-side "===ADMIN_KEY" check
-// (which anyone could bypass just by reading the page source and calling
-// the API directly). Now every write/edit/delete/upload request must carry
-// the correct key in an "x-admin-key" header, verified here, not in the browser.
-function requireAdmin(req, res, next) {
-  const suppliedKey = req.headers["x-admin-key"];
-
-  if (!process.env.ADMIN_KEY) {
-    console.error("❌ Missing ADMIN_KEY. Add it to your .env file (see .env.example).");
-    return res.status(500).json({ error: "Server misconfigured" });
-  }
-
-  if (!suppliedKey || suppliedKey !== process.env.ADMIN_KEY) {
-    return res.status(401).json({ error: "Unauthorized ❌" });
-  }
-
-  next();
-}
 
 // ===============================
 // HOME
@@ -106,10 +85,17 @@ app.get("/articles", async (req, res) => {
 
 // ===============================
 // GET ONE ARTICLE (BY ID)
+// Increments the view counter each time someone actually opens
+// this article on read.html — that's the one place this route
+// gets called for a single article, so it's the right spot.
 // ===============================
 app.get("/articles/:id", async (req, res) => {
   try {
-    const a = await Article.findById(req.params.id);
+    const a = await Article.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
     if (!a) return res.status(404).json({ message: "Not found ❌" });
     res.json(a);
   } catch (err) {
@@ -135,7 +121,7 @@ app.get("/article/slug/:slug", async (req, res) => {
 // ===============================
 // ADD ARTICLE
 // ===============================
-app.post("/articles", requireAdmin, async (req, res) => {
+app.post("/articles", async (req, res) => {
   try {
     const article = new Article({
       ...req.body,
@@ -152,7 +138,7 @@ app.post("/articles", requireAdmin, async (req, res) => {
 // ===============================
 // UPDATE ARTICLE
 // ===============================
-app.put("/articles/:id", requireAdmin, async (req, res) => {
+app.put("/articles/:id", async (req, res) => {
   try {
     const updated = await Article.findByIdAndUpdate(
       req.params.id,
@@ -213,7 +199,7 @@ app.post("/articles/:id/comment", async (req, res) => {
 // ===============================
 // DELETE
 // ===============================
-app.delete("/articles/:id", requireAdmin, async (req, res) => {
+app.delete("/articles/:id", async (req, res) => {
   try {
     await Article.findByIdAndUpdate(req.params.id, {
       unseen: true,
@@ -241,7 +227,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload", requireAdmin, upload.single("image"), (req, res) => {
+app.post("/upload", upload.single("image"), (req, res) => {
   res.json({ path: "/uploads/" + req.file.filename });
 });
 

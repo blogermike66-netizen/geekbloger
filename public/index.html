@@ -47,14 +47,6 @@ header{
 .logo{font-size:28px;font-weight:bold;cursor:pointer;}
 nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
 
-.main-layout{display:flex;gap:20px;padding:20px;}
-
-.hero{flex:2;background:white;border-radius:10px;overflow:hidden;cursor:pointer;}
-.hero img{width:100%;height:380px;object-fit:cover;}
-.hero h2{padding:10px;margin:0;font-size:24px;}
-
-.sidebar{flex:1;background:white;border-radius:10px;padding:10px;}
-
 #articles{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -86,11 +78,6 @@ nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
   nav{display:flex;flex-wrap:wrap;gap:10px;}
   nav a{margin:0;font-size:14px;}
 
-  .main-layout{flex-direction:column;padding:10px;}
-  .hero img{height:220px;}
-  .hero h2{font-size:18px;}
-  .sidebar{margin-top:10px;}
-
   #articles{grid-template-columns:1fr;padding:10px;}
   .article-card img{height:160px;}
   .article-card h3{font-size:16px;}
@@ -100,8 +87,6 @@ nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
 
 @media (max-width: 480px){
   .logo{font-size:21px;}
-  .hero img{height:180px;}
-  .hero h2{font-size:16px;}
 }
 
 footer{
@@ -114,11 +99,113 @@ footer{
 }
 
 /* =========================
+   BIG SCREEN HERO (CBR-style featured banner)
+========================= */
+.hero-big{
+  position:relative;
+  width:100%;
+  height:65vh;
+  min-height:340px;
+  max-height:560px;
+  overflow:hidden;
+  cursor:pointer;
+  background:#111;
+}
+
+.hero-big img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0.88;
+  display:block;
+}
+
+.hero-overlay{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:30px 40px;
+  background:linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.1) 80%, transparent);
+  color:white;
+}
+
+.hero-tag{
+  display:inline-block;
+  background:#ff4d6d;
+  padding:4px 12px;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  margin-bottom:12px;
+}
+
+.hero-overlay h1{
+  font-size:38px;
+  line-height:1.2;
+  margin:0;
+  max-width:850px;
+}
+
+.hero-meta{
+  margin-top:10px;
+  font-size:14px;
+  color:#ddd;
+}
+
+.hero-empty{
+  height:200px;
+}
+
+/* TRENDING STRIP under the hero */
+.trending-strip{
+  background:#f7f7f7;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  overflow-x:auto;
+  border-bottom:1px solid #eee;
+  scrollbar-width:thin;
+}
+
+.trending-label{
+  flex:0 0 auto;
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  color:#ff4d6d;
+}
+
+.trending-strip a{
+  flex:0 0 auto;
+  font-size:14px;
+  color:#111;
+  text-decoration:none;
+  white-space:nowrap;
+  cursor:pointer;
+}
+.trending-strip a:hover{text-decoration:underline;}
+
+@media (max-width: 768px){
+  .hero-big{height:42vh;min-height:240px;}
+  .hero-overlay{padding:16px 20px;}
+  .hero-overlay h1{font-size:22px;}
+  .hero-tag{font-size:10px;padding:3px 8px;margin-bottom:8px;}
+  .hero-meta{font-size:12px;}
+  .trending-strip{padding:10px 15px;gap:14px;}
+  .trending-strip a{font-size:13px;}
+}
+
+/* =========================
    TECH NEWS STRIP (GNews)
 ========================= */
 #techStrip{
   padding:0 20px;
-  margin-top:-5px;
+  margin-top:20px;
 }
 
 #techStrip h3{
@@ -196,40 +283,6 @@ footer{
   .tech-card{flex-basis:200px;}
 }
 
-/* =========================
-   VIDEO SPOTLIGHT (YouTube)
-========================= */
-#videoSpotlight{
-  padding:20px;
-  margin-top:-5px;
-}
-
-#videoSpotlight h3{
-  font-size:15px;
-  color:#666;
-  margin:0 0 10px;
-  text-transform:uppercase;
-  letter-spacing:0.5px;
-}
-
-.video-frame{
-  position:relative;
-  width:100%;
-  max-width:800px;
-  aspect-ratio:16/9;
-  border-radius:10px;
-  overflow:hidden;
-  box-shadow:0 2px 10px rgba(0,0,0,0.06);
-}
-
-.video-frame iframe{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
 </style>
 </head>
 
@@ -254,30 +307,12 @@ footer{
 </nav>
 </header>
 
-<div class="main-layout" id="homeLayout">
-  <div class="hero" id="hero"></div>
-  <div class="sidebar" id="sidebar"></div>
+<div id="homeLayout">
+  <div class="hero-big" id="heroBig"></div>
+  <div class="trending-strip" id="trendingStrip"></div>
 </div>
 
 <div id="techStrip"></div>
-
-<div id="videoSpotlight">
-  <h3>📺 Video Spotlight</h3>
-  <div class="video-frame">
-    <!--
-      Placeholder video — swap VIDEO_ID_HERE for whatever you want featured today.
-      Grab the ID from the YouTube URL: youtube.com/watch?v=THIS_PART
-      Currently set to a well-known placeholder clip so the layout is visible;
-      replace it with your own pick before going live.
-    -->
-    <iframe
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ"
-      title="Video Spotlight"
-      allow="autoplay; encrypted-media"
-      allowfullscreen>
-    </iframe>
-  </div>
-</div>
 
 <div id="articles"></div>
 
@@ -389,7 +424,6 @@ async function renderTechStrip(){
 async function showFeed(category, badge, emptyMessage){
   document.getElementById("homeLayout").style.display = "none";
   document.getElementById("techStrip").innerHTML = "";
-  document.getElementById("videoSpotlight").style.display = "none";
   document.getElementById("articles").style.display = "grid";
 
   const news = await loadGNewsCategory(category);
@@ -409,8 +443,7 @@ function showTechNews(){
 
 /* =========================
    ARTICLE NAVIGATION
-   Articles now open on their own page (read.html) instead of
-   swapping content in-place here.
+   Articles open on their own page (read.html).
 ========================= */
 function openArticle(id){
   window.location.href = "read.html?id=" + id;
@@ -431,7 +464,6 @@ function showCategory(category){
 
     document.getElementById("homeLayout").style.display = "none";
     document.getElementById("techStrip").innerHTML = "";
-    document.getElementById("videoSpotlight").style.display = "none";
     document.getElementById("articles").style.display = "grid";
 
     renderArticles(filtered);
@@ -450,30 +482,79 @@ async function loadArticles(){
 }
 
 /* =========================
-   HOME HERO + SIDEBAR
+   BIG SCREEN HERO + TRENDING STRIP
+   The hero always shows whichever is genuinely the most recent —
+   your own latest article, or the newest live tech headline —
+   comparing actual publish timestamps from both sources. It never
+   sits empty as long as either source has something.
 ========================= */
-function buildHome(data){
-  if(!data.length) return;
+function buildHome(dbArticles, techNews){
+  const heroEl = document.getElementById("heroBig");
+  const stripEl = document.getElementById("trendingStrip");
 
-  const sorted=[...data].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const sortedDb = [...dbArticles].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const sortedNews = [...techNews].sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
 
-  document.getElementById("hero").innerHTML=`
-    <img src="${sorted[0].image||''}">
-    <h2>${sorted[0].title}</h2>
-  `;
+  const topDb = sortedDb[0] || null;
+  const topNews = sortedNews[0] || null;
 
-  document.getElementById("hero").onclick=()=>openArticle(sorted[0]._id);
+  let heroItem = null;
+  let heroType = null; // "own" or "api"
 
-  const side=document.getElementById("sidebar");
-  side.innerHTML="<h3>Trending</h3>";
+  if(topDb && topNews){
+    if(new Date(topDb.date) >= new Date(topNews.publishedAt)){
+      heroItem = topDb; heroType = "own";
+    }else{
+      heroItem = topNews; heroType = "api";
+    }
+  }else if(topDb){
+    heroItem = topDb; heroType = "own";
+  }else if(topNews){
+    heroItem = topNews; heroType = "api";
+  }
 
-  sorted.slice(0,5).forEach(a=>{
-    const div=document.createElement("div");
-    div.innerHTML="🔥 "+a.title;
-    div.style.cursor="pointer";
-    div.onclick=()=>openArticle(a._id);
-    side.appendChild(div);
-  });
+  if(!heroItem){
+    heroEl.className = "hero-big hero-empty";
+    heroEl.innerHTML = `<div class="hero-overlay"><h1 style="font-size:20px;">New content coming soon</h1></div>`;
+    heroEl.onclick = null;
+    stripEl.innerHTML = "";
+    return;
+  }
+
+  heroEl.className = "hero-big";
+
+  if(heroType === "own"){
+    heroEl.innerHTML = `
+      <img src="${heroItem.image||''}">
+      <div class="hero-overlay">
+        <span class="hero-tag">${heroItem.category ? heroItem.category : "Featured"}</span>
+        <h1>${heroItem.title}</h1>
+        <div class="hero-meta">By ${heroItem.author||"GeekHub"} • ${formatDate(heroItem.date)}</div>
+      </div>
+    `;
+    heroEl.onclick = () => openArticle(heroItem._id);
+  }else{
+    const source = heroItem.source && heroItem.source.name ? heroItem.source.name : "News";
+    heroEl.innerHTML = `
+      <img src="${heroItem.image||''}">
+      <div class="hero-overlay">
+        <span class="hero-tag">🌐 Live Tech</span>
+        <h1>${heroItem.title}</h1>
+        <div class="hero-meta">${source} • ${formatDate(heroItem.publishedAt)}</div>
+      </div>
+    `;
+    heroEl.onclick = () => window.open(heroItem.url, "_blank");
+  }
+
+  // Trending strip: your own latest articles, minus whichever one is the hero right now
+  const trendingSource = sortedDb.filter(a => !(heroType === "own" && a._id === heroItem._id));
+
+  stripEl.innerHTML = trendingSource.length
+    ? `<span class="trending-label">🔥 Trending</span>` +
+      trendingSource.slice(0,6).map(a =>
+        `<a onclick="openArticle('${a._id}')">${a.title}</a>`
+      ).join("")
+    : "";
 }
 
 /* =========================
@@ -484,7 +565,6 @@ function renderArticles(list){
   container.innerHTML="";
 
   const sorted=[...list].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  buildHome(sorted);
 
   sorted.forEach(a=>{
     const card=document.createElement("div");
@@ -493,7 +573,7 @@ function renderArticles(list){
     card.innerHTML=`
       <img src="${a.image||''}">
       <h3>${a.title}</h3>
-      <p>👍 ${a.likes||0} | 💬 ${(a.comments||[]).length}</p>
+      <p>👍 ${a.likes||0} | 💬 ${(a.comments||[]).length} | 👁 ${a.views||0}</p>
     `;
 
     const meta=document.createElement("small");
@@ -512,8 +592,7 @@ function renderArticles(list){
    NAVIGATION
 ========================= */
 function goHome(){
-  document.getElementById("homeLayout").style.display="flex";
-  document.getElementById("videoSpotlight").style.display="block";
+  document.getElementById("homeLayout").style.display="block";
   document.getElementById("articles").style.display="grid";
   showHome();
 }
@@ -522,8 +601,13 @@ function goHome(){
    LOAD DATA
 ========================= */
 async function showHome(){
-  const dbArticles = await loadArticles();
+  const [dbArticles, techNews] = await Promise.all([
+    loadArticles(),
+    loadGNewsCategory("technology")
+  ]);
+
   renderArticles(dbArticles);
+  buildHome(dbArticles, techNews);
   renderTechStrip();
 }
 
