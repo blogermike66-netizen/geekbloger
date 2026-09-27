@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title id="pageTitle">GeekHub - Read Article</title>
+
+<meta name="description" id="pageDescription" content="Read the latest anime, gaming, movie and news updates on GeekHub.">
+<meta name="robots" content="index, follow">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3404435753081620"
+     crossorigin="anonymous"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-SWGRMPJNRW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-SWGRMPJNRW');
+</script>
+
+<script src="https://jsc.adskeeper.com/site/1096050.js" async>
+</script>
+
+<style>
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:white;
+  font-size:18px;
+}
+
+header{
+  background:black;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+}
+
+.logo{font-size:28px;font-weight:bold;cursor:pointer;}
+nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
+
+@media (max-width: 768px){
+  body{font-size:16px;}
+
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  nav{display:flex;flex-wrap:wrap;gap:10px;}
+  nav a{margin:0;font-size:14px;}
+
+  footer{font-size:12px;padding:15px;}
+}
+
+@media (max-width: 480px){
+  .logo{font-size:21px;}
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  margin-top:40px;
+  background:#111;
+  color:white;
+  font-size:14px;
+}
+
+/* =========================
+   ARTICLE LAYOUT
+========================= */
+#articlePage{
+  padding:20px;
+}
+
+.article-layout{
+  display:flex;
+  gap:30px;
+  max-width:1200px;
+  margin:0 auto;
+  align-items:flex-start;
+}
+
+.article-main{
+  flex:3;
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  max-width:750px;
+  width:100%;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.article-main h1{
+  font-size:30px;
+  line-height:1.3;
+  margin-bottom:10px;
+}
+
+.article-main p,
+.article-main div{
+  line-height:1.8;
+  font-size:17px;
+  color:#222;
+}
+
+.article-main img{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+.article-side{
+  flex:1;
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  position:sticky;
+  top:20px;
+  height:fit-content;
+  min-width:260px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.side-item{display:flex;gap:10px;margin-bottom:10px;cursor:pointer;}
+.side-item img{width:80px;height:60px;object-fit:cover;border-radius:6px;}
+.side-item span{font-size:14px;}
+
+.back{
+  background:black;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+
+.actions button{
+  padding:8px 15px;
+  margin-right:10px;
+  cursor:pointer;
+}
+
+.comment{
+  background:#fafafa;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:6px;
+}
+
+textarea{
+  width:100%;
+  min-height:80px;
+  padding:10px;
+  box-sizing:border-box;
+  font-family:inherit;
+}
+
+.not-found{
+  max-width:600px;
+  margin:60px auto;
+  text-align:center;
+  padding:20px;
+}
+
+@media (max-width: 768px){
+  .article-layout{
+    flex-direction:column;
+    padding:10px;
+  }
+
+  .article-main{
+    max-width:100%;
+    padding:15px;
+  }
+
+  .article-side{
+    position:static;
+    margin-top:20px;
+  }
+
+  .side-item img{width:70px;height:50px;}
+  .side-item span{font-size:13px;}
+
+  .actions button{
+    margin-bottom:8px;
+    width:100%;
+  }
+
+  .article-main h1{font-size:20px;}
+}
+
+#likeNudge{
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  background:#ff4d6d;
+  color:white;
+  padding:12px 18px;
+  border-radius:30px;
+  font-size:14px;
+  font-weight:600;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  opacity:0;
+  transform:translateY(20px);
+  transition:0.4s ease;
+  z-index:999;
+  cursor:pointer;
+  animation:pulse 2s infinite;
+}
+
+#likeNudge.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div data-type="_mgwidget" data-widget-id="2015223">
+</div>
+<script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");
+</script>
+
+<header>
+<div class="logo" onclick="location.href='index.html'">GeekHub</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="index.html?cat=anime">Anime</a>
+<a href="index.html?cat=gaming">Gaming</a>
+<a href="index.html?cat=movies">Movies</a>
+<a href="index.html?cat=news">News</a>
+<a href="index.html?cat=sports">Sports</a>
+<a href="index.html?cat=pop">Pop Culture</a>
+<a href="index.html?feed=technology">🌐 Tech News</a>
+</nav>
+</header>
+
+<section id="articlePage">
+<div class="article-layout" id="articleLayout" style="display:none">
+
+<div class="article-main">
+<button class="back" onclick="goBack()">⬅ Back</button>
+
+<div id="articleContent"></div>
+
+<div class="actions">
+<button onclick="likeArticle()">👍 Like <span id="likeCount">0</span></button>
+<button onclick="favArticle()">⭐ Favourite</button>
+</div>
+
+<h3>Comments</h3>
+<div id="comments"></div>
+
+<textarea id="commentText" placeholder="Write comment..."></textarea>
+<button onclick="addComment()">Post Comment</button>
+
+<button onclick="openEdit()">✏️ Edit</button>
+</div>
+
+<div class="article-side" id="articleSide"></div>
+
+</div>
+
+<div class="not-found" id="notFound" style="display:none">
+  <h2>Article not found</h2>
+  <p>This article may have been removed or the link is incorrect.</p>
+  <button class="back" onclick="location.href='index.html'">⬅ Back to GeekHub</button>
+</div>
+
+</section>
+
+<div id="likeNudge">
+  ❤️ Enjoying this? Tap Like!
+</div>
+
+<footer>
+  © 2026 GeekHub | Anime • Gaming • Movies • News
+
+  <nav>
+    <a href="index.html">Home</a><br>
+    <a href="about.html">About</a><br>
+    <a href="contact.html">Contact</a><br>
+    <a href="privacy.html">Privacy</a><br>
+  </nav>
+</footer>
+
+<script>
+const API = window.location.origin;
+let currentArticle = null;
+
+function formatDate(date){
+  if(!date) return "";
+  const d=new Date(date);
+  return d.toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
+}
+
+async function loadArticles(){
+  try{
+    const res=await fetch(`${API}/articles`);
+    const data=await res.json();
+    return Array.isArray(data)?data:[];
+  }catch(e){return [];}
+}
+
+function goBack(){
+  if(document.referrer && document.referrer.includes(window.location.host)){
+    history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
+
+/* =========================
+   RENDER THE ARTICLE
+========================= */
+function renderArticle(article){
+  currentArticle = article;
+
+  document.getElementById("pageTitle").innerText = article.title + " - GeekHub";
+  const desc = (article.content || "").replace(/<[^>]*>/g,"").slice(0,150);
+  document.getElementById("pageDescription").setAttribute("content", desc);
+
+  document.getElementById("articleContent").innerHTML=`
+    <h1>${article.title}</h1>
+    <p style="color:gray">By ${article.author||"GeekHub"} • ${formatDate(article.date)}</p>
+    <img src="${article.image||''}" style="width:100%">
+    <div>${article.content}</div>
+  `;
+
+  document.getElementById("likeCount").innerText = article.likes || 0;
+
+  loadComments();
+
+  loadArticles().then(data=>{
+    const side=document.getElementById("articleSide");
+    side.innerHTML="<h3>More in this category</h3>";
+
+    data
+      .filter(a => a.category === article.category && a._id !== article._id)
+      .slice(0,5)
+      .forEach(a=>{
+        const div=document.createElement("div");
+        div.className="side-item";
+        div.innerHTML=`<img src="${a.image||''}"><span>${a.title}</span>`;
+        div.onclick=()=>{ window.location.href = "read.html?id=" + a._id; };
+        side.appendChild(div);
+      });
+  });
+
+  document.getElementById("articleLayout").style.display="flex";
+  document.getElementById("notFound").style.display="none";
+
+  showLikeNudge();
+}
+
+/* =========================
+   COMMENTS
+========================= */
+function loadComments(){
+  const box=document.getElementById("comments");
+  box.innerHTML="";
+  (currentArticle.comments||[]).forEach(c=>{
+    const d=document.createElement("div");
+    d.className="comment";
+    d.innerText=c;
+    box.appendChild(d);
+  });
+}
+
+async function addComment(){
+  const t = document.getElementById("commentText").value;
+  if(!t) return;
+  if(!currentArticle._id) return;
+
+  await fetch(`${API}/articles/${currentArticle._id}/comment`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({comment:t})
+  });
+
+  if(!currentArticle.comments) currentArticle.comments = [];
+  currentArticle.comments.push(t);
+
+  document.getElementById("commentText").value = "";
+  loadComments();
+}
+
+/* =========================
+   LIKE / FAVOURITE
+========================= */
+async function likeArticle(){
+  if(!currentArticle || !currentArticle._id) return;
+
+  await fetch(`${API}/articles/${currentArticle._id}/like`, {method:"POST"});
+
+  currentArticle.likes = (currentArticle.likes || 0) + 1;
+  document.getElementById("likeCount").innerText = currentArticle.likes;
+}
+
+function favArticle(){
+  alert("Saved to favourites (you can connect backend later)");
+}
+
+function openEdit(){
+  const key=prompt("Enter admin key:");
+  if(!key) return;
+
+  sessionStorage.setItem("adminKey", key);
+  localStorage.setItem("editArticle",JSON.stringify(currentArticle));
+  window.location.href="/write.html";
+}
+
+/* =========================
+   LIKE NUDGE
+========================= */
+let nudgeReady = false;
+let nudge = null;
+let showTimer = null;
+let autoHideTimer = null;
+
+function showLikeNudge(){
+  nudge = document.getElementById("likeNudge");
+  if(!nudge) return;
+
+  clearTimeout(showTimer);
+  clearTimeout(autoHideTimer);
+
+  nudge.classList.remove("show");
+  nudgeReady = false;
+
+  showTimer = setTimeout(() => {
+    nudge.classList.add("show");
+    nudgeReady = true;
+
+    autoHideTimer = setTimeout(() => {
+      nudge.classList.remove("show");
+      nudgeReady = false;
+    }, 180000);
+  }, 4000);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const el = document.getElementById("likeNudge");
+  if(!el) return;
+
+  el.onclick = () => {
+    if(!nudgeReady) return;
+
+    likeArticle();
+
+    el.innerHTML = "🔥 Thanks for the support!";
+    el.style.background = "#28a745";
+
+    nudgeReady = false;
+    clearTimeout(autoHideTimer);
+
+    setTimeout(() => {
+      el.classList.remove("show");
+    }, 1200);
+  };
+});
+
+/* =========================
+   STARTUP — load the article from ?id=
+========================= */
+(function startup(){
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if(!id){
+    document.getElementById("notFound").style.display="block";
+    return;
+  }
+
+  fetch(`${API}/articles/${id}`)
+    .then(r => r.json())
+    .then(article => {
+      if(article && article._id){
+        renderArticle(article);
+      }else{
+        document.getElementById("notFound").style.display="block";
+      }
+    })
+    .catch(() => {
+      document.getElementById("notFound").style.display="block";
+    });
+})();
+</script>
+
+</body>
+</html>

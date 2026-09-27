@@ -252,7 +252,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// DIRECT PAGE LOAD
+// DIRECT PAGE LOAD (backward-compatible redirect to the new reading page)
 app.get("/article/:id", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.redirect(301, `/read.html?id=${req.params.id}`);
 });
